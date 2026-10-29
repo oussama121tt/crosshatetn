@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/classify.py": {
+      "includeFiles": "model/**",
+      "maxDuration": 10
+    }
+  }
+}

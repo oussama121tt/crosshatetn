@@ -1,0 +1,67 @@
+# Configuration du socle de données CrossHateTN.
+# Chaque valeur ici fait partie du protocole : toute modification doit être notée dans le rapport.
+
+seed: 42
+labels: [normal, abusive, hate]   # schéma harmonisé (classes de T-HSAB)
+target_source: thsab              # domaine cible : validation et test de référence tirés de T-HSAB
+
+paths:
+  raw: data/raw                     # sources téléchargées (non versionnées)
+  outputs: outputs                  # sorties régénérables (non versionnées)
+  splits: splits                    # affectation gelée des splits : VERSIONNÉE
+  arbitration: annotations/arbitrage.csv
+
+sources:
+  thsab:
+    role: labeled
+    dialect: tunisian
+    loader: thsab_xlsx
+    repo: Hala-Mulki/T-HSAB-A-Tunisian-Hate-Speech-and-Abusive-Dataset
+    commit: 307f96f123980f1a308df8435979d82e5c4a8f57
+    path: T-HSAB Corpus/T-HSAB.xlsx
+    sha256: 04b9503a1be25b2b9d137b4cbb74aa087abff74ed2ca247e9e384265219b4b84
+    label_map: {normal: normal, abusive: abusive, hate: hate}
+  lhsab:
+    role: labeled
+    dialect: levantine
+    loader: lhsab_tsv
+    repo: Hala-Mulki/L-HSAB-First-Arabic-Levantine-HateSpeech-Dataset
+    commit: 9abf6b6d05f484b67cd85a4a61476c51b5cc1910
+    path: Dataset/L-HSAB
+    sha256: 3fc5e06ab624b47e404a0530388631c4894c323ca038e726ce6dd3d0e6a371e3
+    label_map: {normal: normal, abusive: abusive, hate: hate}
+  tunizi:
+    role: pool                      # Arabizi étiqueté en sentiment, pas en haine : réserve à annoter
+    dialect: tunisian
+    loader: tunizi_txt
+    repo: chaymafourati/TUNIZI-Sentiment-Analysis-Tunisian-Arabizi-Dataset
+    commit: 33a341ce27d7db58198e40469f7cdc229ab3db89
+    path: TUNIZI-Dataset.txt
+    sha256: af5a8eab4f2e2e20d5ff86a1e79ac0903f7023c06d321b33660f8c371e1bd051
+
+dedup:
+  conflict_policy: exclude          # exclude : conflits écartés jusqu'à arbitrage humain
+                                    # majority : majorité stricte, sinon écartés
+
+near_duplicates:
+  ngram_range: [3, 5]               # n-grammes de caractères (char_wb) sur le texte normalisé léger
+  group_threshold: 0.70             # cosinus >= seuil : même groupe, donc même split
+  review_threshold: 0.60            # paires entre splits dans [0,60 ; 0,70[ : listées pour revue
+
+split:
+  test: 0.15
+  validation: 0.15
+  n_folds: 20                       # StratifiedGroupKFold : 3 plis test, 3 plis validation, 14 train
+  stratify_on: [source, label]
+  max_class_gap: 0.02               # écart toléré entre la part d'une classe dans un split et dans la source
+
+baseline:
+  eval_source: thsab                # sélection et évaluation sur la validation tunisienne
+  train_sets:
+    tn: [thsab]
+    tn+lev: [thsab, lhsab]
+  text_variants: [text_raw, text_light, text_strong]
+  models:
+    svm: [0.03, 0.1, 0.3, 1.0, 3.0]       # valeurs de C
+    logreg: [0.3, 1.0, 3.0, 10.0, 30.0]
+  bootstrap: 1000

@@ -1,0 +1,48 @@
+{
+  "fichier": "affectation.csv",
+  "effectifs": {
+    "train": 8174,
+    "validation": 1753,
+    "test": 1751
+  },
+  "detail": {
+    "lhsab|test|abusive": 255,
+    "lhsab|test|hate": 69,
+    "lhsab|test|normal": 534,
+    "lhsab|train|abusive": 1191,
+    "lhsab|train|hate": 324,
+    "lhsab|train|normal": 2495,
+    "lhsab|validation|abusive": 255,
+    "lhsab|validation|hate": 70,
+    "lhsab|validation|normal": 534,
+    "thsab|test|abusive": 167,
+    "thsab|test|hate": 160,
+    "thsab|test|normal": 566,
+    "thsab|train|abusive": 775,
+    "thsab|train|hate": 749,
+    "thsab|train|normal": 2640,
+    "thsab|validation|abusive": 168,
+    "thsab|validation|hate": 159,
+    "thsab|validation|normal": 567
+  },
+  "digests": {
+    "train": "fcc29c8fc0721cf58f31b5926f904c5f20adcb59768fad1410f0c96aa732e47f",
+    "validation": "91729d4d7933e123bd6c9bef657272e9d25a9970afb832b43e5247f6a642b811",
+    "test": "c2415c05ad9fd3e7c18b8d32de133665719f232f430511447f5ff9c215eebd83"
+  },
+  "scikit_learn_creation": "1.9.1",
+  "empreinte_donnees": "9c62d164f80a",
+  "graine": 42,
+  "sources_sha256": {
+    "thsab": "04b9503a1be25b2b9d137b4cbb74aa087abff74ed2ca247e9e384265219b4b84",
+    "lhsab": "3fc5e06ab624b47e404a0530388631c4894c323ca038e726ce6dd3d0e6a371e3",
+    "tunizi": "af5a8eab4f2e2e20d5ff86a1e79ac0903f7023c06d321b33660f8c371e1bd051"
+  },
+  "historique": [
+    {
+      "date": "2026-10-26 13:19 UTC",
+      "action": "création",
+      "ids": 11678
+    }
+  ]
+}

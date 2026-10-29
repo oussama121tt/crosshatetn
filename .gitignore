@@ -1,0 +1,14 @@
+# Données téléchargées et sorties régénérables : jamais versionnées (licences non spécifiées)
+data/raw/
+outputs/
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+.env
+
+# Vercel (lien local du projet)
+.vercel/
