@@ -1,4 +1,4 @@
-"""Inférence de la démo en ligne (copiée dans web/api/_lib/modele.py par export-web) avec numpy seul (sans scikit-learn, trop lourd pour une fonction Vercel).
+"""Inférence de la démo en ligne (copiée dans web/demo_web/modele.py par export-web) avec numpy seul (sans scikit-learn, trop lourd pour une fonction Vercel).
 
 Reproduit exactement TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 5), min_df=2, sublinear_tf=True)
 suivi de LinearSVC.decision_function. Le modèle (vocabulaire, idf, poids) est produit par

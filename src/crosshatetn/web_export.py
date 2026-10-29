@@ -4,7 +4,7 @@
 
 1. entraîne le modèle de la démo exactement comme `demo` (T-HSAB train gelé, TF-IDF caractères, LinearSVC C = 1) ;
 2. écrit web/model/modele_demo.npz : vocabulaire de n-grammes, idf, poids, biais (aucun texte du corpus) ;
-3. copie text.py, translit.py et web_modele.py (inférence numpy) dans web/api/_lib/ et la page de la démo dans web/index.html ;
+3. copie text.py, translit.py et web_modele.py (inférence numpy) dans web/demo_web/ et la page de la démo dans web/index.html ;
 4. vérifie que l'inférence numpy de web/ redonne les mêmes scores que scikit-learn, sinon s'arrête.
 """
 from __future__ import annotations
@@ -25,7 +25,7 @@ PHRASES_CONTROLE = ["يا بهيم سكر فمك", "قالي يا بهيم وض�
 
 def export(model: demo.DemoModel, web_dir: Path) -> Path:
     web_dir = Path(web_dir)
-    lib = web_dir / "api" / "_lib"
+    lib = web_dir / "demo_web"
     (web_dir / "model").mkdir(parents=True, exist_ok=True)
     lib.mkdir(parents=True, exist_ok=True)
     src = Path(__file__).resolve().parent
@@ -42,14 +42,14 @@ def export(model: demo.DemoModel, web_dir: Path) -> Path:
                         ngram_range=np.asarray(vec.ngram_range), description=np.asarray(model.description + " Démo en ligne."))
 
     # Contrôle : l'inférence numpy de web/ doit redonner exactement la trace de la démo locale.
-    sys.path.insert(0, str(web_dir / "api"))
+    sys.path.insert(0, str(web_dir))
     try:
         for name in list(sys.modules):
-            if name == "_lib" or name.startswith("_lib."):
+            if name == "demo_web" or name.startswith("demo_web."):
                 del sys.modules[name]
-        spec = importlib.util.find_spec("_lib.modele")
+        spec = importlib.util.find_spec("demo_web.modele")
         web = importlib.util.module_from_spec(spec)
-        sys.modules["_lib.modele"] = web
+        sys.modules["demo_web.modele"] = web
         spec.loader.exec_module(web)
         m = web.Modele(out)
         for phrase in PHRASES_CONTROLE:
@@ -63,5 +63,5 @@ def export(model: demo.DemoModel, web_dir: Path) -> Path:
                 if a.get(k) != b.get(k):
                     raise AssertionError(f"Démo web différente de la démo locale pour {phrase!r} ({k}) : {a.get(k)} / {b.get(k)}")
     finally:
-        sys.path.remove(str(web_dir / "api"))
+        sys.path.remove(str(web_dir))
     return out

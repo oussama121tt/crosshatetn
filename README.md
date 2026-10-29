@@ -37,7 +37,7 @@ La page affiche chaque étape : écriture détectée, normalisation, n-grammes q
 
 ### Démo en ligne (Vercel)
 
-Le dossier `web/` contient la même démo, prête pour Vercel : une page (`index.html`) et une fonction Python (`api/classify.py`) qui n'utilise que numpy.
+Le dossier `web/` contient la même démo, prête pour Vercel : une page (`index.html`) et une petite application Python (`app.py`, WSGI) qui n'utilise que numpy.
 
 ```bash
 python -m crosshatetn export-web       # entraîne le modèle et écrit web/model/modele_demo.npz (~450 Ko)

@@ -31,6 +31,8 @@ Installer "gh" "GitHub.cli"
 Installer "node" "OpenJS.NodeJS.LTS"
 
 Etape "Contrôle : aucun corpus ni secret ne doit partir sur GitHub"
+# Ancienne structure de web/ (fonction api/classify.py) : remplacée par web/app.py
+foreach ($ancien in @("web\api", "web\vercel.json")) { if (Test-Path $ancien) { Remove-Item $ancien -Recurse -Force } }
 if (-not (Test-Path "web\model\modele_demo.npz")) { throw "web\model\modele_demo.npz manquant : lancer d'abord  python -m crosshatetn export-web" }
 
 Etape "Connexion à GitHub"
@@ -44,7 +46,7 @@ if (-not (git config user.email)) { git config user.email "$Compte@users.noreply
 git add -A
 $suivis = git diff --cached --name-only
 foreach ($f in $suivis) {
-    if ($f -match '^(data/|outputs/)' -or $f -match '(^|/)\.env$') { throw "Fichier interdit dans le commit : $f" }
+    if ($f -match '^(data/|outputs/)' -or $f -match '(^|/)\.env(\..+)?$') { throw "Fichier interdit dans le commit : $f" }
 }
 if (-not (Teste "git diff --cached --quiet")) { git commit -m "CrossHateTN Bronze : socle, baselines, démo locale et démo web" | Out-Null; Ok "commit" }
 git branch -M main
@@ -64,6 +66,8 @@ Push-Location web
 try {
     if (-not (Teste "npx --yes vercel@latest whoami")) { npx --yes vercel@latest login; Ok "connexion Vercel" }
     if (-not (Test-Path ".vercel\project.json")) { npx --yes vercel@latest link --yes --project $Depot; Ok "création du projet Vercel" }
+    # Déploiement par ce script uniquement : un push GitHub lancerait un build depuis la racine du dépôt (sans app.py)
+    cmd /c "npx --yes vercel@latest git disconnect --yes >nul 2>&1"
     $sortie = npx --yes vercel@latest deploy --prod --yes 2>&1
     $code = $LASTEXITCODE
     $sortie | ForEach-Object { Write-Host $_ }

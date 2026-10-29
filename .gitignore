@@ -9,6 +9,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 .env
+.env.*
 
 # Vercel (lien local du projet)
 .vercel/

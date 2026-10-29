@@ -15,4 +15,4 @@ def test_demo_web_identique_a_la_demo_locale():
         # export() s'arrête si l'inférence numpy de web/ ne redonne pas les scores de scikit-learn
         out = export(fit_model(train, seed=42, description="test"), Path(d))
         assert out.exists() and (Path(d) / "index.html").exists()
-        assert (Path(d) / "api" / "_lib" / "modele.py").exists()
+        assert (Path(d) / "demo_web" / "modele.py").exists()
