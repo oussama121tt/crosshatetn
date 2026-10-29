@@ -151,7 +151,7 @@ main{max-width:1040px;margin:0 auto}
 header{display:flex;align-items:center;gap:16px;margin:6px 0 4px}
 .badge{flex:none;width:58px;height:58px;border-radius:14px;background:var(--red);color:#FFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px}
 h1{margin:0;font-size:30px;line-height:1.1;color:var(--blue)} h1 span{color:var(--red)}
-.trait{width:120px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--red) 50%,var(--blue) 50%);margin:10px 0 6px 74px}
+.trait{width:120px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--red) 50%,var(--blue) 50%);
 .muted{color:var(--muted);font-size:14px;margin:4px 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:14px 0;overflow:hidden}
 .card>.head{display:flex;align-items:center;gap:10px;background:var(--hblue);color:#FFF;padding:10px 16px;font-weight:600;font-size:17px}
@@ -195,7 +195,6 @@ tr.use td,tr.use th{background:var(--tred)}
 .pied{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
 </style></head>
 <body><main>
-<header><div class="badge">03</div><h1>CrossHateTN : <span>de la phrase à la classe</span></h1></header>
 <div class="trait"></div>
 <p class="muted">Tapez une phrase en arabe tunisien ou en Arabizi, puis « Classer » (ou Ctrl + Entrée). Chaque étape reste visible.</p>
 <div class="card"><div class="head"><span class="num">✎</span>Entrée</div><div class="body">
